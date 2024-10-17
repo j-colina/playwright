@@ -23,6 +23,7 @@ jobs:
       env:
         BROWSER: ${{ secrets.BROWSER }}
         BASE_URL: ${{ vars.BASE_URL }}
+        PW_WORKERS: ${{ vars.PW_WORKERS }}
       run: npm run test:all
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}

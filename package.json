@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test:all": "playwright test --headed"
+    "test:all": "playwright test"
   },
   "keywords": [],
   "author": "",
