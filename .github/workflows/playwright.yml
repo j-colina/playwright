@@ -48,10 +48,13 @@ jobs:
         retention-days: 10
     - name: Setup pages
       uses: actions/configure-pages@v5
+      if: ${{ !cancelled() }}
     - name: Upload playwright report to pages
       uses: actions/upload-pages-artifact@v3
+      if: ${{ !cancelled() }}
       with:
         path: playwright-report/
     - name: Deploy to github pages
       id: deployment
       uses: actions/deploy-pages@v4
+      if: ${{ !cancelled() }}
