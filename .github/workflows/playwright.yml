@@ -59,9 +59,16 @@ jobs:
     #   uses: actions/deploy-pages@v4
     #   if: ${{ !cancelled() }}
 
+    
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: allure-results
+        path: allure-results/
+        retention-days: 10
       #
     - name: Load test report history
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: always()
       continue-on-error: true
       with:
@@ -77,18 +84,18 @@ jobs:
         allure_results: allure-results
 
     - name: Publish test report
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4
       if: always()
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: gh-pages
         publish_dir: allure-history
-    - name: Post the link to the report
-      if: always()
-      uses: Sibz/github-status-action@v1
-      with: 
-          authToken: ${{secrets.GITHUB_TOKEN}}
-          context: 'Test report'
-          state: 'success'
-          sha: ${{ github.event.pull_request.head.sha }}
-          target_url: simple-elf.github.io/github-allure-history/${{ github.run_number }}
+    # - name: Post the link to the report
+    #   if: always()
+    #   uses: Sibz/github-status-action@v1
+    #   with: 
+    #       authToken: ${{secrets.GITHUB_TOKEN}}
+    #       context: 'Test report'
+    #       state: 'success'
+    #       sha: ${{ github.event.pull_request.head.sha }}
+    #       target_url: simple-elf.github.io/github-allure-history/${{ github.run_number }}
