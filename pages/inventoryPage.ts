@@ -7,7 +7,7 @@ class InventoryPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.invetoryContainer = page.locator('[data-test="inventory-container1"]');
+        this.invetoryContainer = page.locator('[data-test="inventory-container"]');
     }
 }
 export default InventoryPage
