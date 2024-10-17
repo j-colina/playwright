@@ -46,15 +46,40 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 10
-    - name: Setup pages
-      uses: actions/configure-pages@v5
-      if: ${{ !cancelled() }}
-    - name: Upload playwright report to pages
-      uses: actions/upload-pages-artifact@v3
-      if: ${{ !cancelled() }}
+    # - name: Setup pages
+    #   uses: actions/configure-pages@v5
+    #   if: ${{ !cancelled() }}
+    # - name: Upload playwright report to pages
+    #   uses: actions/upload-pages-artifact@v3
+    #   if: ${{ !cancelled() }}
+    #   with:
+    #     path: playwright-report/
+    # - name: Deploy to github pages
+    #   id: deployment
+    #   uses: actions/deploy-pages@v4
+    #   if: ${{ !cancelled() }}
+
+      #
+    - name: Load test report history
+      uses: actions/checkout@v3
+      if: always()
+      continue-on-error: true
       with:
-        path: playwright-report/
-    - name: Deploy to github pages
-      id: deployment
-      uses: actions/deploy-pages@v4
-      if: ${{ !cancelled() }}
+        ref: gh-pages
+        path: gh-pages
+
+    - name: Build test report
+      uses: simple-elf/allure-report-action@v1.7
+      if: always()
+      with:
+        gh_pages: gh-pages
+        allure_history: allure-history
+        allure_results: allure-results
+
+    - name: Publish test report
+      uses: peaceiris/actions-gh-pages@v3
+      if: always()
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: allure-history
