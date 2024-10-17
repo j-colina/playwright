@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 dotenv.config({ path: path.resolve(__dirname, '.env') });
-const ciWorkers = process.env.PW_WORKERS || 1; 
+const ciWorkers = Number(process.env.PW_WORKERS) || 1; 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
